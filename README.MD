@@ -1,103 +1,133 @@
-Steps to create a complete project of  NodeJS Express-Server-RESTAPI Sequelize-ORM MySQL-connection
+# About this Project:
+A basic NodeJS Container application which consist of Express server environment, REST API , Sequelize ORM, and of course MySQL Database connection. The project is more organized in terms of separate folders for Models, Controllers, Routers, DB Configurations, Auto creating Database and tables according to the structure specified in models. 
+## NodeJS Container application framwowrk
+![image](https://user-images.githubusercontent.com/77499979/229306201-ed21c710-f1b6-4ec2-bb57-a9e2090ee4e4.png)
 
-After crating the project, the structure should look like this:
-https://d2mk45aasx86xg.cloudfront.net/Mechanism_of_Sequelize_js_3_11zon_653867cd15.webp
+
+## Steps to create a complete project of  NodeJS Express-Server-RESTAPI Sequelize-ORM MySQL-connection
+
+**Note**: After creating the project, the structure should look like this:
+![image](https://user-images.githubusercontent.com/77499979/229306148-091f9b89-ad18-4597-91b7-980069bdcbf9.png)
+
 
 Steps:
 1. Create Node.js App
 
 create a directory using command
-  mkdir nodejs-express-sequelize-mysql
+````diff
+  mkdir nodejs-expressjs-restapi-sequelizorm-mysql-db
+  ````
 
 2. navigate to the directory using command
-  cd nodejs-express-sequelize-mysql
-
-2. open the directory in CMD Line Interface(if not opened in CMD) and run 
+````diff
+  cd nodejs-expressjs-restapi-sequelizorm-mysql-db
+````
+3. open the directory in CMD Line Interface(if not opened in CMD) and run 
+	````diff
 	npm init
+````
 
 Answer the questions like these:
 
+```diff
 name: (nodejs-express-sequelize-mysql) 
 version: (1.0.0) 
 description: Node.js Rest Apis with Express, Sequelize & MySQL.
-entry point: (index.js) server.js //chose any file like app.js
+entry point: (index.js) app.js //chose any file like server.js
 test command: 
 git repository: 
 keywords: nodejs, express, sequelize, mysql, rest, api
-author: bezkoder
+author: zia Khan
 license: (ISC)
 
 Is this ok? (yes) yes
+````
 
-Check package.json created.
+#### Check package.json created.
 
-Open in VS code using command:	code . 
+Open the project in VS code using command:	code . 
 
 4. Install necessary modules: express, sequelize, mysql2 and cors.
 Run the command:
-
+````diff
 	npm install express sequelize mysql2 cors --save
-
+```
 Check package.json updated.
 
+**express** is a popular Node.js framework for building web applications and APIs.
+
+**sequelize** is a powerful Object-Relational Mapping (ORM) tool for working with databases.
+
+**mysql2** is a MySQL database driver for Node.js.
+
+**body-parser** is a middleware that parses incoming request bodies in a middleware before your handlers, available under the req.body property.
+
+**cors** is a middleware that can be used to enable Cross-Origin Resource Sharing (CORS).
+
 5. Setup Express web server
-In the root folder, let’s create a new server.js file and paste this code:
+In the root folder, let’s create a new app.js file and paste this code:
+
+````diff
 
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
-
+const corsOptions = {
+    origin: "http://localhost:8090"
+}
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
+//parse request of content-type - - application/json
 app.use(express.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
+//parse request of content-type - - application/ww-form-url-encoded
 app.use(express.urlencoded({ extended: true }));
 
-// simple route
+//default app port calling response
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Our Node JS application By Zia Khan." });
+    res.json({ message: "Welcome To our Node JS Express Js using Rest API with Sequelze ORM and MySQL DB Connection" });
+});
+
+
+const PORT = process.env.PORT || 8090;
+app.listen(PORT, () => {
+    console.log("\nYou NodeJS Express Server App is running on the PORT " + PORT + "\n");
 });
 
 // set port, listen for requests
-require("./app/routes/turorial.routes")(app);
-const PORT = process.env.PORT || 8081;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+require("./app/routes/routes")(app);
+//build/establish db conection by calling index.js file
+var db = require("./app/models");
+
+//let the nodejs create tables according to the models. 
+//comment this if you do not want to make tables empty on reRunning the APP in CMD.
+//This code on runnig the app will create tabees from models and delete all data if exist.
+//if you comment this line, you have to create tables in database.
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log("Db synced");
+// }).catch(() => {
+//     console.log("Fail to synce DB");
+// });
 
 
-const db = require("./app/models");
-db.sequelize.sync({force:true})
-  .then(() => {
-    console.log("Synced db.");
-  })
-  .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
-  });
 
-  /*
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
-  */
+````diff
 
+This sets up a basic Express server with middleware to parse JSON and urlencoded data, and enable CORS.
+It also defines a simple / route that sends a "Hello, world!" message.
 
-TEST using localhost:8080/ in postman or web.
+TEST using localhost:8090/ in postman or web.
 
 6. Configure MySQL database & Sequelize
 In the app folder, we create a separate config folder for configuration with db.config.js file like this:
+````diff
 module.exports = {
   HOST: "localhost",
-  USER: "root",
-  PASSWORD: "123456",
-  DB: "testdb",
+  USER: "username",
+  PASSWORD: "password",
+  DB: "database_name",
   dialect: "mysql",
   pool: {
     max: 5,
@@ -106,297 +136,85 @@ module.exports = {
     idle: 10000
   }
 };
-
+````
+#### Note: 
+Replace database_name, username, and password with the appropriate values for your MySQL database.
+This creates a new Sequelize instance and connects to your MySQL database using the mysql2 driver.
 
 7. Initialize Sequelize
 We’re gonna initialize Sequelize in app/models folder that will contain model in the next step.
 
 Now create app/models/index.js with the following code:
 
-const dbConfig = require("../config/db.config.js");
-
+````diff
+const dbConfig = require("../config/db.config");
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-  host: dbConfig.HOST,
-  dialect: dbConfig.dialect,
-  operatorsAliases: false,
 
-  pool: {
-    max: dbConfig.pool.max,
-    min: dbConfig.pool.min,
-    acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle
-  }
-});
+const sequelize = new Sequelize(
+    dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+    HOST: dbConfig.HOST,
+    dialect: dbConfig.dialect,
+    operatorAlliases: true,
 
-const db = {};
+    pool: {
+        min:dbConfig.min,
+        max:dbConfig.max,
+        acquire:dbConfig.acquirem,
+        idle:dbConfig.idle
+    }
+}
+);
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+const db={};
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
+db.sequelize=sequelize;
+db.Sequelize=Sequelize;
 
-module.exports = db;
+db.editors=require("../models/customer.model.js")(sequelize,Sequelize);
+db.products=require("../models/product.model.js")(sequelize,Sequelize);
+///.... more models if any
+module.exports=db;
 
+````
 
 8. Define the Sequelize Model
-In models folder, create tutorial.model.js file like this:
-module.exports = (sequelize, Sequelize) => {
-    const Tutorial = sequelize.define("tutorial", {
-      title: {
-        type: Sequelize.STRING
-      },
-      description: {
-        type: Sequelize.STRING
-      },
-      published: {
-        type: Sequelize.BOOLEAN
-      }
-    });
-  
-    return Tutorial;
-  };
+create models folder, create product.model.js and customer.model.js files. Code provided
 
-  9. Create the Controller
+
+ 9. Create the Controller
 Inside app/controllers folder, let’s create tutorial.controller.js with these CRUD functions:
 
-const db = require("../models");
-const Tutorial = db.tutorials;
-const Op = db.Sequelize.Op;
+create controllers folder, create product.controller.js and customer.controller.js files. Code provided
 
-// Create and Save a new Tutorial
-exports.create = (req, res) => {
-    // Validate request
-    console.log('req:',req.body);
-    if (!req.body.title) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-        return;
-    }
+10. create routes folder then routes/routes.js like this:
 
-    // Create a Tutorial
-    const tutorial = {
-        title: req.body.title,
-        description: req.body.description,
-        published: req.body.published ? req.body.published : false
-    };
+```diff
+module.exports=app =>{
+const CustomerControll=require("../controllers/customer.controller.js");
+const ProductControll=require("../controllers/product.controller.js");
+const router=require("express").Router();
 
-    // Save Tutorial in the database
-    Tutorial.create(tutorial)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the Tutorial."
-            });
-        });
+//customers
+router.post("/save/customer",CustomerControll.create);
+router.get("/get/customer",CustomerControll.findAll);
+
+//Products
+router.post("/save/product",ProductControll.create);
+router.get("/get/products",ProductControll.findAll);
+
+
+app.use("/v1",router)
 };
 
-//Retrieve all Tutorials/ find by title from the database:
-
-exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-
-    Tutorial.findAll({ where: condition })
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving tutorials."
-            });
-        });
-};
-
-
-//Retrieve a single object
-//Find a single Tutorial with an id:
-
-exports.findOne = (req, res) => {
-  const id = req.params.id;
-
-  Tutorial.findByPk(id)
-    .then(data => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({
-          message: `Cannot find Tutorial with id=${id}.`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
-      });
-    });
-};
-
-//Update Object
-exports.update = (req, res) => {
-    const id = req.params.id;
-  
-    Tutorial.update(req.body, {
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Tutorial was updated successfully."
-          });
-        } else {
-          res.send({
-            message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error updating Tutorial with id=" + id
-        });
-      });
-  }
-
-  //Delete an object
-//Delete a Tutorial with the specified id:
-
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  Tutorial.destroy({
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Tutorial was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete Tutorial with id=" + id
-      });
-    });
-};
-// all objects
-//Delete all Tutorials from the database:
-
-exports.deleteAll = (req, res) => {
-  Tutorial.destroy({
-    where: {},
-    truncate: false
-  })
-    .then(nums => {
-      res.send({ message: `${nums} Tutorials were deleted successfully!` });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all tutorials."
-      });
-    });
-};
-//Find all objects by condition
-//Find all Tutorials with published = true:
-
-exports.findAllPublished = (req, res) => {
-  Tutorial.findAll({ where: { published: true } })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials."
-      });
-    });
-};
-// This controller can be modified a little to return pagination response:
-
-// {
-//     "totalItems": 8,
-//     "tutorials": [...],
-//     "totalPages": 3,
-//     "currentPage": 1
-// }
-
-
-10. Define Routes
-When a client sends request for an endpoint using HTTP request (GET, POST, PUT, DELETE), we need to determine how the server will reponse by setting up the routes.
-
-These are our routes:
-
-/api/tutorials: GET, POST, DELETE
-/api/tutorials/:id: GET, PUT, DELETE
-/api/tutorials/published: GET
-Create a turorial.routes.js inside app/routes folder with content like this:
-
-module.exports = app => {
-    const tutorials = require("../controllers/tutorial.controller.js");
-  
-    var router = require("express").Router();
-  
-    // Create a new Tutorial
-    router.post("/", tutorials.create);
-  
-    // Retrieve all Tutorials
-    router.get("/", tutorials.findAll);
-  
-    // Retrieve all published Tutorials
-    router.get("/published", tutorials.findAllPublished);
-  
-    // Retrieve a single Tutorial with id
-    router.get("/:id", tutorials.findOne);
-  
-    // Update a Tutorial with id
-    router.put("/:id", tutorials.update);
-  
-    // Delete a Tutorial with id
-    router.delete("/:id", tutorials.delete);
-  
-    // Delete all Tutorials
-    router.delete("/", tutorials.deleteAll);
-  
-    app.use('/v1/tutorials', router);
-  };
-
-
-
+````
 
 11.Test the APIs
-Run our Node.js application with command: node server.js.
+Run our Node.js application with command: node app.js.
 
-Using Postman, we're gonna test all the Apis above.
-
-1. Create a new Tutorial using POST /tutorials API
-  http://localhost:8081/v1/tutorials
-
-2. Retrieve all Tutorials using GET /tutorials API
-  http://localhost:8081/v1/tutorials/
-
-3. Retrieve a single Tutorial by id using GET /tutorials/:id Api
-  http://localhost:8081/v1/tutorials/7
-
-4. Update a Tutorial using PUT /tutorials/:id Api
-  http://localhost:8081/v1/tutorials/7
-
-and so, on
 
 Note: In the whole process we did not mentioned creating database, tables and defining their columns
-because the code in serer.js create tables if does not exist.
+because the code in app.js create tables if does not exist.
 
-Links:
-https://www.bezkoder.com/node-js-express-sequelize-mysql/
-https://d2mk45aasx86xg.cloudfront.net/Mechanism_of_Sequelize_js_3_11zon_653867cd15.webp
+
 
 
