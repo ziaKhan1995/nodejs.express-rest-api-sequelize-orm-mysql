@@ -23,7 +23,7 @@ mkdir nodejs-expressjs-restapi-sequelizorm-mysql-db
 cd nodejs-expressjs-restapi-sequelizorm-mysql-db
 ````
 3. open the directory in CMD Line Interface(if not opened in CMD) and run 
-	````diff
+````diff
 npm init
 ````
 
