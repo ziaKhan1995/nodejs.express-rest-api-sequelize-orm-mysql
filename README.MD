@@ -15,16 +15,16 @@ Steps:
 
 create a directory using command
 ````diff
-  mkdir nodejs-expressjs-restapi-sequelizorm-mysql-db
+mkdir nodejs-expressjs-restapi-sequelizorm-mysql-db
   ````
 
 2. navigate to the directory using command
 ````diff
-  cd nodejs-expressjs-restapi-sequelizorm-mysql-db
+cd nodejs-expressjs-restapi-sequelizorm-mysql-db
 ````
 3. open the directory in CMD Line Interface(if not opened in CMD) and run 
 	````diff
-	npm init
+npm init
 ````
 
 Answer the questions like these:
@@ -52,7 +52,7 @@ code .
 4. Install necessary modules: express, sequelize, mysql2 and cors.
 Run the command:
 ````diff
-	npm install express sequelize mysql2 cors --save
+npm install express sequelize mysql2 cors --save
 ````
 Check package.json updated.
 
@@ -115,7 +115,7 @@ var db = require("./app/models");
 
 
 
-````diff
+````
 
 This sets up a basic Express server with middleware to parse JSON and urlencoded data, and enable CORS.
 It also defines a simple / route that sends a "Hello, world!" message.
