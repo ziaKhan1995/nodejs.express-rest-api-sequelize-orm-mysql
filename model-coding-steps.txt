@@ -1,7 +1,0 @@
-=> module export type function with parametrs sequelize and Sequelize
-
-=> Inside  module export type function, declare Model and directlt initialze body by passing the table name.
-
-=> inside body write tables columns.
-
-=> After the body of model return the model.
