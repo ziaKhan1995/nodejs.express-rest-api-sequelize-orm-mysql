@@ -7,7 +7,7 @@ A basic NodeJS Container application which consist of Express server environment
 ## Steps to create a complete project of  NodeJS Express-Server-RESTAPI Sequelize-ORM MySQL-connection
 
 **Note**: After creating the project, the structure should look like this:
-![image](https://user-images.githubusercontent.com/77499979/229307518-66c08c1b-1d2b-4158-8faf-1d2006638abc.png)
+![image](https://user-images.githubusercontent.com/77499979/229307563-2645853a-5b18-4ff9-bda9-6aca542944ba.png)
 
 
 Steps:
