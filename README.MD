@@ -45,13 +45,15 @@ Is this ok? (yes) yes
 
 #### Check package.json created.
 
-Open the project in VS code using command:	code . 
-
+Open the project in VS code using command:	
+````diff
+code . 
+````
 4. Install necessary modules: express, sequelize, mysql2 and cors.
 Run the command:
 ````diff
 	npm install express sequelize mysql2 cors --save
-```
+````
 Check package.json updated.
 
 **express** is a popular Node.js framework for building web applications and APIs.
@@ -182,9 +184,8 @@ create models folder, create product.model.js and customer.model.js files. Code 
 
 
  9. Create the Controller
-Inside app/controllers folder, let’s create tutorial.controller.js with these CRUD functions:
-
-create controllers folder, create product.controller.js and customer.controller.js files. Code provided
+Inside app folder, let’s create controller folder.
+create product.controller.js and customer.controller.js files. Code provided
 
 10. create routes folder then routes/routes.js like this:
 
