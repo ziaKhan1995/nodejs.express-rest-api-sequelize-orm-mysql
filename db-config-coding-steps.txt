@@ -1,0 +1,16 @@
+export module with information of database like this
+
+module.export= {
+
+db_name,
+psd,
+user,
+localhost,
+dialect,
+pool: {
+    max:
+    min:
+    acquire: 
+    idle: 
+  }
+};

@@ -1,0 +1,9 @@
+=> create and initialize DB
+
+
+=> create and initialize Model 
+
+=> import other necessary stuffs like Operators which are returned by db.Sequelize.op;
+
+=> create and initialize fuctions 
+

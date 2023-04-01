@@ -1,0 +1,9 @@
+=> Module export app, open body
+
+=> declare and initialze all controllers
+
+=> declare and initialze all router 
+
+=> define router request types(get,put) and their corresponding functions
+
+=> At the end specify the defUlt path using app.use('....');
